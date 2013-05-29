@@ -1,121 +1,117 @@
 $(function () {
-    /** Core scene components and other important globals */
-    var camera, controls, scene, renderer;
-    var clock, time;
+    var scene;
+    var renderer;
+    var camera;
+    var controls;
 
-    /** Constant Settings */
-    var WEBGL_REQUIRED = true;
+    var clock;
+    var time;
 
-    /** Dynamic flags */
-    var webglEnabled = false;
-    var hudVisible = true;
+    var moon = {
 
-    /** Skybox variables */
-    var skybox, texCube;
-    var urlPrefix = "img/starfield/";
-    var urls = [urlPrefix + "front.png", urlPrefix + "back.png",
-                urlPrefix + "left.png", urlPrefix + "right.png",
-                urlPrefix + "top.png", urlPrefix + "bottom.png"];
+        radius: 100,
+        xSegments: 50,
+        ySegments: 50,
 
-    /** Moon variables */
-    var mapPath = 'img/maps/moon.jpg';
-    var moon, moonTex, shaderMat, uniforms;
-
-    /** Global vector representing the light source in-scene, ie 'The Sun' */
-    var lightPosition = new THREE.Vector3(0, 0, 0);
-
-    /** This function is responsible for loading all assets and files
-        from storage before calling the init function and animating */
-    $(window).load(function () {
-        moonTex = THREE.ImageUtils.loadTexture(mapPath, null, function () {
-            createMoon();
-            texCube = THREE.ImageUtils.loadTextureCube(urls, null, function () {
-                createSkybox();
-                animate();
-            });
-        });
-        init();
-    });
-
-    var createMoon = function () {
-        /** Uniform variables passed into both vertex and fragment shaders,
+        init: function (texture) {
+            /** Uniform variables passed into both vertex and fragment shaders,
             uniforms stay constant throughout each frame. */
-        uniforms = {
-            lightPosition: { type: "v3", value: lightPosition },
-            texture: { type: "t", value: 0, texture: moonTex },
-            uvScale: { type: "v2", value: new THREE.Vector2(1.0, 1.0) }
-        };
+            var uniforms = {
+                lightPosition: { type: "v3", value: light.position },
+                texture: { type: "t", value: texture },
+                uvScale: { type: "v2", value: new THREE.Vector2(1.0, 1.0) }
+            };
 
-        /** Three.JS ShaderMaterial object accepts a reference to the object
-            which holds our uniforms, these are passed to the vertex and
-            fragment shaders, which are also loaded via jQuery here */
-        shaderMat = new THREE.ShaderMaterial({
-            uniforms: uniforms,
-            vertexShader: $('#vertexShader').text(),
-            fragmentShader: $('#fragmentShader').text()
-        });
+            /** Three.JS ShaderMaterial object accepts a reference to the object
+                which holds our uniforms, these are passed to the vertex and
+                fragment shaders, which are also loaded via jQuery here */
+            var shaderMaterial = new THREE.ShaderMaterial({
+                uniforms: uniforms,
+                vertexShader: $('#vertexShader').text(),
+                fragmentShader: $('#fragmentShader').text()
+            });
 
-        /** Create the geometry for our moon */
-        var radius = 100;
-        var xSegments = 50;
-        var ySegments = 50;
-        var sphere = new THREE.SphereGeometry(radius, xSegments, ySegments);
+            /** Create the geometry for our moon */
+            var sphere = new THREE.SphereGeometry(
+                this.radius,
+                this.xSegments,
+                this.ySegments
+            );
 
-        /** Finally combine our shader material and geometry to create
-            our moon mesh, make sure the normals are computed for the
-            shader and add it to the scene. */
-        moon = new THREE.Mesh(sphere, shaderMat);
-        moon.geometry.computeVertexNormals;
-        moon.geometry.computeFaceNormals();
-        moon.position.set(0, 0, 0);
-        scene.add(moon);
-    }
-
-    var createSkybox = function () {
-
-        /** Use the cube shader included with the Three.JS */
-        var cubeShader = THREE.ShaderUtils.lib["cube"];
-        cubeShader.uniforms["tCube"].texture = texCube;
-
-        /** Create a Three.JS ShaderMaterial for the skycube using the
-            cube shaders uniforms, fragment shader, and vertex shader */
-        var spaceMat = new THREE.ShaderMaterial({
-            fragmentShader: cubeShader.fragmentShader,
-            vertexShader: cubeShader.vertexShader,
-            uniforms: cubeShader.uniforms
-        });
-
-        /** Create the cube geometry for use in our skycube */
-        var size = 15000;
-        var cube = new THREE.CubeGeometry(size, size, size);
-
-        /** Create the skybox mesh using our newly created material and geometry
-            and invert it so that the material is on the inside of the cube */
-        skybox = new THREE.Mesh(cube, spaceMat);
-        skybox.flipSided = true;
-        scene.add(skybox);
+            /** Finally combine our shader material and geometry to create
+                our moon mesh, make sure the normals are computed for the
+                shader and add it to the scene. */
+            moon = new THREE.Mesh(sphere, shaderMaterial);
+            moon.geometry.computeVertexNormals;
+            moon.geometry.computeFaceNormals();
+            moon.position.set(0, 0, 0);
+            scene.add(moon);
+        }
     };
 
-    function init() {
+    var skybox = {
 
-        /** Check browser support, display message if needed */
+        size: 15000,
+
+        init: function (texture) {
+            /** Create a skybox using the built in cube shader */
+            var cubemap = THREE.ShaderLib["cube"];
+            cubemap.uniforms["tCube"].value = texture;
+
+            /** Create a Three.JS ShaderMaterial for the skycube using the
+                cube shaders uniforms, fragment shader, and vertex shader */
+            var spaceMat = new THREE.ShaderMaterial({
+                fragmentShader: cubemap.fragmentShader,
+                vertexShader: cubemap.vertexShader,
+                uniforms: cubemap.uniforms,
+                depthWrite: false,
+                side: THREE.BackSide
+            });
+
+            /** Create the cube geometry for use in our skycube */
+            var cube = new THREE.CubeGeometry(this.size, this.size, this.size);
+
+            /** Create the skybox mesh using our newly created material and geometry
+                and invert it so that the material is on the inside of the cube */
+            skybox = new THREE.Mesh(cube, spaceMat);
+            scene.add(skybox);
+        }
+
+    };
+
+    /** This object will represent our light source in the scene */
+    var light = {
+        speed: 0.1,
+        distance: 1000,
+        position: new THREE.Vector3(0, 0, 0),
+
+        orbit: function (obj) {
+
+            this.position.x = 
+                (obj.position.x + this.distance) * Math.sin(time * -this.speed);
+
+            this.position.z =
+                (obj.position.z + this.distance) * Math.cos(time * this.speed);
+
+            this.position.normalize();
+        }
+    };
+
+    var init = function () {
+        /** Check for WebGL support */
         if (Detector.webgl) {
             renderer = new THREE.WebGLRenderer({
                 antialias: true,
                 preserveDrawingBuffer: true
             });
-            webglEnabled = true; // set flag 
-        }
-        else if (WEBGL_REQUIRED) {
-            Detector.addGetWebGLMessage();
         }
         else {
-            renderer = new THREE.CanvasRenderer();
-            webglEnabled = false; // set flag 
+            Detector.addGetWebGLMessage();
+            return false;
         }
 
         /** Initialize our renderer and inject it into our container element */
-        renderer.setClearColorHex(0x000000, 1);
+        renderer.setClearColor(0x000000, 1);
         renderer.setSize(window.innerWidth, window.innerHeight);
         $('#container').append(renderer.domElement);
 
@@ -139,36 +135,25 @@ $(function () {
         stats.domElement.style.bottom = '0px';
         $("#hud").append(stats.domElement);
 
-        /** Output renderer type used to the inlineDoc at bottom of HUD */
-        if (webglEnabled) $('#inlineDoc').append('WebGL Renderer');
-        else $('#inlineDoc').append('Canvas Renderer');
-
         /** Bind jQuery event handlers */
         $(document).on('keydown', onDocumentKeyDown);
         $(window).on('resize', onWindowResize);
 
         /** Start the clock */
         clock = new THREE.Clock();
-    }
+
+        return true;
+    };
 
 
-    /** Our main animation loop implemented as a function that has a callback
-        through the below function which is implemented by modern browsers */
-    function animate() {
-
-        /** Callback to requestAnimFrame, optimized for modern browsers */
+    /** Main animation loop callback to requestAnimFrame */
+    var animate = function () {
         requestAnimationFrame(animate);
 
         /** Request a new time sample from our clock */
         time = clock.getElapsedTime();
 
-        /** Light source will orbit around around the moon at a given distance
-            on the XY-plane, giving the effect of the moon changing phases */
-        var speed = 0.1;
-        var distance = 1000;
-        lightPosition.x = moon.position.x + distance * Math.sin(time * -speed);
-        lightPosition.z = moon.position.z + distance * Math.cos(time * speed);
-        lightPosition.normalize();
+        light.orbit(moon);
 
         /** Call updates to various other components */
         controls.update(camera);
@@ -176,39 +161,62 @@ $(function () {
 
         /** Render a new frame only after calculating animation logic */
         renderer.render(scene, camera);
-    }
+    };
 
     /** Event handler for the document object's 'keydown' event */
-    function onDocumentKeyDown(event) {
-        event.preventDefault();
+    var onDocumentKeyDown = function (event) {
         switch (event.keyCode) {
             case 'H'.charCodeAt(0):
-                if (hudVisible) {
+                if ($('#hud').css('visibility') !== 'visible')
                     $('#hud').css('visibility', 'hidden');
-                    hudVisible = false;
-                }
-                else {
-                    $('#hud').css('visibility', 'visible');
-                    hudVisible = true;
-                }
+                else
+                    $('#hud').css('visiblility', 'visible');
                 break;
             case 'F'.charCodeAt(0):
-                if (THREEx.FullScreen.available()) THREEx.FullScreen.toggle();
+                if (screenfull.enabled) screenfull.toggle();
                 break;
             case 'P'.charCodeAt(0):
-                THREEx.Screenshot.takeScreen(renderer);
+                window.open(encodePNG(renderer.domElement), 'screenshot');
                 break;
         }
-    }
+    };
 
-    /** Event handler for the window object's 'resize' event */
-    function onWindowResize() {
-
-        /** Update renderer size to match window on resize */
+    var onWindowResize = function () {
+        /** Update renderer size to match the window */
         renderer.setSize(window.innerWidth, window.innerHeight);
 
-        /** Update the aspect ratio and projection matrix */
+        /** Update the camera's aspect ratio and projection matrix */
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
-    }
+    };
+
+    var encodePNG = function (element) {
+        /** Get a base64 encoded data url of the element in PNG format */
+        var mimeType = 'image/png';
+        return element.toDataURL(mimeType);
+    };
+
+    /** Main entry point, begin loading assets, then immediately start
+    initialization, animation will begin only when all assets have been
+    loaded */
+    $(window).on('load', function () {
+        if (!init()) return;
+
+        var path = 'img/maps/moon.jpg';
+        THREE.ImageUtils.loadTexture(path, null, function (texture) {
+            moon.init(texture);
+
+            var prefix = 'img/starfield/';
+            var paths = [prefix + "front.png", prefix + "back.png",
+                        prefix + "left.png", prefix + "right.png",
+                        prefix + "top.png", prefix + "bottom.png"];
+
+            THREE.ImageUtils.loadTextureCube(paths, null, function (texture) {
+                skybox.init(texture);
+
+                /** Animate only after all assets are loaded */
+                animate();
+            });
+        });
+    });
 });
