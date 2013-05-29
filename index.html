@@ -22,21 +22,22 @@
     <script type="text/javascript" src="vendor/THREEx.FullScreen_.js"></script>
   </head>
 <body>
+    
     <!-- Container for everything that will be displayed in our app -->
     <div id="container"></div>
+    
     <!-- info is an onscreen HUD overlay that is drawn on top of our render it can be
          hidden by default by the h key toggle -->
     <div id="hud">
         <div class="hud-panel" id="top-right">
-            Moon Demo -- WebGL and JavaScript<br />-- Created by Cory Gross
+            <a href="http://github.com/CoryG89/MoonDemo">Moon Demo</a> -- WebGL and JavaScript<br />-- Created by <a href="http://coryg89.github.io">Cory Gross</a>
         </div>
         <div class="hud-panel" id="bottom-right">
-            <!-- Display keyboard shortcuts and toggles -->
             <i>h</i> to toggle HUD - <i>p</i> for screenshot - <i>f</i> for fullscreen -
         </div>
     </div>
 
-    <!-- WEBGL - GLSL VERTEX SHADER -->
+    <!-- GLSL vertex shader for the moon -->
     <script id="vertexShader" type="x-shader/x-vertex">
         varying vec3 vNormal;
         uniform vec2 uvScale;
@@ -45,11 +46,11 @@
         void main() {
             vNormal = normal;
             vUv = uvScale * uv;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
     </script>
 
-    <!-- WEBGL - GLSL FRAGMENT SHADER -->
+    <!-- GLSL fragment shader for the moon -->
     <script id="fragmentShader" type="x-shader/x-fragment">
         varying vec3 vNormal;
         varying vec2 vUv;
@@ -64,6 +65,5 @@
     </script>
 
     <script type="text/javascript" src="js/moonDemo.js"></script>
-
 </body>
 </html>
