@@ -1,0 +1,42 @@
+body
+{
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    color: #000000;
+    background-color: #000000;
+}
+
+#hud {
+    color: white;
+    visibility: visible;
+}
+
+.hud-panel {
+    position: absolute;
+    padding: 5px;
+}
+
+#top-left.hud-panel {
+    top: 0px;
+    left: 0px;
+    text-align: left;
+}
+
+#top-right.hud-panel {
+    top: 0px;
+    right: 0px;
+    text-align: right;
+}
+
+#bottom-left.hud-panel {
+    bottom: 0px;
+    left: 0px;
+    text-align: left;
+}
+
+#bottom-right.hud-panel {
+    bottom: 0px;
+    right: 0px;
+    text-align: right;
+}

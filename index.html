@@ -1,0 +1,69 @@
+﻿<!doctype html>
+<html>
+  <head>
+    <title>Three.JS Demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link type="text/css" href="css/main.css" rel="stylesheet" />
+    
+    <noscript>
+        Sorry, you need javascript enabled to view this web application. 
+        Please check your browser's settings if you wish to run the app.
+    </noscript>
+
+    <!-- Include vendor scripts, jQuery, and Three.JS components -->
+    <script type="text/ecmascript" src="vendor/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="vendor/three.r49.min.js"></script>
+    <script type="text/javascript" src="vendor/detector.min.js"></script>
+    <script type="text/javascript" src="vendor/stats.min.js"></script>
+
+    <!-- Modified THREEx extensions -- original author Jerome Etienne-->
+    <script type="text/javascript" src="vendor/THREEx.screenshot_.js"></script>
+    <script type="text/javascript" src="vendor/THREEx.FullScreen_.js"></script>
+  </head>
+<body>
+    <!-- Container for everything that will be displayed in our app -->
+    <div id="container"></div>
+    <!-- info is an onscreen HUD overlay that is drawn on top of our render it can be
+         hidden by default by the h key toggle -->
+    <div id="hud">
+        <div class="hud-panel" id="top-right">
+            Moon Demo -- WebGL and JavaScript<br />-- Created by Cory Gross
+        </div>
+        <div class="hud-panel" id="bottom-right">
+            <!-- Display keyboard shortcuts and toggles -->
+            <i>h</i> to toggle HUD - <i>p</i> for screenshot - <i>f</i> for fullscreen -
+        </div>
+    </div>
+
+    <!-- WEBGL - GLSL VERTEX SHADER -->
+    <script id="vertexShader" type="x-shader/x-vertex">
+        varying vec3 vNormal;
+        uniform vec2 uvScale;
+        varying vec2 vUv;
+
+        void main() {
+            vNormal = normal;
+            vUv = uvScale * uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+        }
+    </script>
+
+    <!-- WEBGL - GLSL FRAGMENT SHADER -->
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        varying vec3 vNormal;
+        varying vec2 vUv;
+        uniform vec3 lightPosition;
+        uniform sampler2D texture;
+
+        void main() {
+            float intensity = max(0.07, dot(vNormal, lightPosition));
+            vec4 lighting = vec4(intensity, intensity, intensity, 1.0);
+            gl_FragColor = texture2D(texture, vUv) * lighting;
+        }
+    </script>
+
+    <script type="text/javascript" src="js/moonDemo.js"></script>
+
+</body>
+</html>
