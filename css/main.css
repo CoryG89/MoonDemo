@@ -7,6 +7,17 @@ body
     background-color: #000000;
 }
 
+a {
+    color: #d00;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
 #hud {
     color: white;
     visibility: visible;
