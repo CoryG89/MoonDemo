@@ -170,7 +170,7 @@ $(function () {
                 if ($('#hud').css('visibility') !== 'visible')
                     $('#hud').css('visibility', 'hidden');
                 else
-                    $('#hud').css('visiblility', 'visible');
+                    $('#hud').css('visibility', 'visible');
                 break;
             case 'F'.charCodeAt(0):
                 if (screenfull.enabled) screenfull.toggle();
