@@ -168,9 +168,9 @@ $(function () {
         switch (event.keyCode) {
             case 'H'.charCodeAt(0):
                 if ($('#hud').css('visibility') !== 'visible')
-                    $('#hud').css('visibility', 'hidden');
-                else
                     $('#hud').css('visibility', 'visible');
+                else
+                    $('#hud').css('visibility', 'hidden');
                 break;
             case 'F'.charCodeAt(0):
                 if (screenfull.enabled) screenfull.toggle();
