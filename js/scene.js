@@ -7,6 +7,16 @@ $(function () {
     var clock;
     var time;
 
+    var hud = {
+        element: $('#hud'),
+        toggle: function () {
+            if (this.element.css('visibility') === 'visible')
+                this.element.css('visibility', 'hidden');
+            else
+                this.element.css('visibility', 'visible');
+        }
+    };
+
     var moon = {
 
         radius: 100,
@@ -133,7 +143,7 @@ $(function () {
         stats = new Stats();
         stats.domElement.style.position = 'absolute';
         stats.domElement.style.bottom = '0px';
-        $("#hud").append(stats.domElement);
+        hud.element.append(stats.domElement);
 
         /** Bind jQuery event handlers */
         $(document).on('keydown', onDocumentKeyDown);
@@ -167,10 +177,7 @@ $(function () {
     var onDocumentKeyDown = function (event) {
         switch (event.keyCode) {
             case 'H'.charCodeAt(0):
-                if ($('#hud').css('visibility') !== 'visible')
-                    $('#hud').css('visibility', 'visible');
-                else
-                    $('#hud').css('visibility', 'hidden');
+                hud.toggle();
                 break;
             case 'F'.charCodeAt(0):
                 if (screenfull.enabled) screenfull.toggle();
