@@ -1,4 +1,4 @@
-Moon Demo <small>Created by Cory Gross</small>
+Moon Demo
 ============
 
 A photorealistic 3D graphics demo of our Moon written in JavaScript and WebGL featuring real high-resolution satellite maps. Check out the [**live demo**][demo]! You'll need a modern browser with WebGL enabled in order to run it. I recommmend [**Google Chrome**][chrome].
