@@ -16,7 +16,7 @@ In order to satisfy my proposed goal of creating a photorealistic 3D demo of the
 
 The best map I could find was processed by [**Jens Meyer**][Jens Meyer] and apparently also darkened up by [**Steve Albers**][Steve Albers]. It and other high quality freely available on Steve Albers homepage and available free for personal non-commercial use. I say this map is the 'best' in the sense that it has the highest resolution and detail compared to other maps I could find.
 
-![Moon Map](moon.jpg)
+[![Moon Map](maps/moon.jpg)][maps/moon.jpg]
 
 ## Technical
 
