@@ -6,6 +6,8 @@ featuring real high-resolution satellite maps. Check out the
 [**live demo**][demo]! You'll need a modern browser with WebGL enabled in order
  to run it. I recommmend [**Google Chrome**][chrome].
 
+[![Moon Demo Screenshot][screen1]][screen1]
+
 ## Dependencies
 
 This demo uses the following open source libraries:
@@ -59,15 +61,16 @@ The scaled normal map is shown here:
 
 [![Scaled Normal Map][scaled_normal]][scaled_normal]
 
-wish to learn more about it, please check out my [**blog post**][blog post] for
-a more detailed technical explanation.
+If you wish to learn more about how this demo was created, please check out my
+[**blog post**][blog post] for a more detailed technical explanation.
 
-[demo]: https://coryg89.github.io/MoonDemo
-[basic_demo]: https://coryg89.github.io/MoonDemo/basic.html
-[blog post]: https://coryg89.github.io/projects/MoonDemo
+[demo]: http://coryg89.github.io/MoonDemo
+[basic_demo]: http://coryg89.github.io/MoonDemo/basic.html
+[blog post]: http://coryg89.github.io/projects/MoonDemo
 
 [scaled_map]: img/maps/moon.jpg
 [scaled_normal]: img/maps/normal.jpg
+[screen1]: img/maps/screen1.png
 
 [chrome]: https://google.com/chrome
 [three.js]: https://github.com/mrdoob/three.js/
