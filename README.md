@@ -41,7 +41,7 @@ my demo.
 
 My scaled down version is shown here:
 
-[![Scaled Moon Map](img/maps/moon.jpg)](img/maps/moon.jpg)
+[![Scaled Moon Map][scaled_map]][scaled_map]
 
 ## Technical
 
@@ -57,7 +57,7 @@ and the scaled verison.
 
 The scaled normal map is shown here:
 
-[![Scaled Normal Map](img/maps/moon.jpg)](img/maps/normal.jpg)
+[![Scaled Normal Map][scaled_normal]][scaled_normal]
 
 wish to learn more about it, please check out my [**blog post**][blog post] for
 a more detailed technical explanation.
@@ -65,6 +65,10 @@ a more detailed technical explanation.
 [demo]: https://coryg89.github.io/MoonDemo
 [basic_demo]: https://coryg89.github.io/MoonDemo/basic.html
 [blog post]: https://coryg89.github.io/projects/MoonDemo
+
+[scaled_map]: img/maps/moon.jpg
+[scaled_normal]: img/maps/normal.jpg
+
 [chrome]: https://google.com/chrome
 [three.js]: https://github.com/mrdoob/three.js/
 [screenfull.js]: https://github.com/sindresorhus/screenfull.js/
