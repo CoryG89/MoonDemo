@@ -27,9 +27,9 @@ $(function () {
             /** Uniform variables passed into both vertex and fragment shaders,
             uniforms stay constant throughout each frame. */
             var uniforms = {
-                lightPosition: { type: "v3", value: light.position },
-                texture: { type: "t", value: texture },
-                uvScale: { type: "v2", value: new THREE.Vector2(1.0, 1.0) }
+                lightPosition: { type: 'v3', value: light.position },
+                texture: { type: 't', value: texture },
+                uvScale: { type: 'v2', value: new THREE.Vector2(1.0, 1.0) }
             };
 
             /** Three.JS ShaderMaterial object accepts a reference to the object
@@ -52,7 +52,6 @@ $(function () {
                 our moon mesh, make sure the normals are computed for the
                 shader and add it to the scene. */
             moon = new THREE.Mesh(sphere, shaderMaterial);
-            moon.geometry.computeVertexNormals;
             moon.geometry.computeFaceNormals();
             moon.position.set(0, 0, 0);
             scene.add(moon);
