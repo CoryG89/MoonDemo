@@ -22,13 +22,14 @@ $(function () {
         radius: 100,
         xSegments: 50,
         ySegments: 50,
+        init: function (textureMap, normalMap) {
 
-        init: function (texture) {
             /** Uniform variables passed into both vertex and fragment shaders,
             uniforms stay constant throughout each frame. */
             var uniforms = {
                 lightPosition: { type: 'v3', value: light.position },
-                texture: { type: 't', value: texture },
+                textureMap: { type: 't', value: textureMap },
+                normalMap: { type: 't', value: normalMap },
                 uvScale: { type: 'v2', value: new THREE.Vector2(1.0, 1.0) }
             };
 
@@ -52,7 +53,7 @@ $(function () {
                 our moon mesh, make sure the normals are computed for the
                 shader and add it to the scene. */
             moon = new THREE.Mesh(sphere, shaderMaterial);
-            moon.geometry.computeFaceNormals();
+            moon.geometry.computeTangents();
             moon.position.set(0, 0, 0);
             scene.add(moon);
         }
@@ -95,14 +96,11 @@ $(function () {
         position: new THREE.Vector3(0, 0, 0),
 
         orbit: function (obj) {
-
             this.position.x = 
                 (obj.position.x + this.distance) * Math.sin(time * -this.speed);
 
             this.position.z =
                 (obj.position.z + this.distance) * Math.cos(time * this.speed);
-
-            this.position.normalize();
         }
     };
 
@@ -209,19 +207,23 @@ $(function () {
         if (!init()) return;
 
         var path = 'img/maps/moon.jpg';
-        THREE.ImageUtils.loadTexture(path, null, function (texture) {
-            moon.init(texture);
+        var normPath = 'img/maps/normal.jpg';
+        THREE.ImageUtils.loadTexture(path, new THREE.UVMapping(), function (textureMap) {
 
-            var prefix = 'img/starfield/';
-            var paths = [prefix + "front.png", prefix + "back.png",
-                        prefix + "left.png", prefix + "right.png",
-                        prefix + "top.png", prefix + "bottom.png"];
+            THREE.ImageUtils.loadTexture(normPath, new THREE.UVMapping(), function (normalMap) {
+                moon.init(textureMap, normalMap);
 
-            THREE.ImageUtils.loadTextureCube(paths, null, function (texture) {
-                skybox.init(texture);
+                var prefix = 'img/starfield/';
+                var paths = [prefix + "front.png", prefix + "back.png",
+                            prefix + "left.png", prefix + "right.png",
+                            prefix + "top.png", prefix + "bottom.png"];
 
-                /** Animate only after all assets are loaded */
-                animate();
+                THREE.ImageUtils.loadTextureCube(paths, null, function (texture) {
+                    skybox.init(texture);
+
+                    /** Animate only after all assets are loaded */
+                    animate();
+                });
             });
         });
     });
