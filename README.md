@@ -20,15 +20,15 @@ This demo uses the following open source libraries:
 
 ## Credit
 
-In order to satisfy my proposed goal of creating a photorealistic 3D demo of
-the moon I first began looking for the best texture map of our Moon that I
-could find. I found out that there is good data published through the Map a
-Planet initiative and available on the [**USGS PDS site**][USGS]. The best data
-we have for our Moon was actually gathered by the
-[**Clementine spacecraft**][Clementine]. It is possible to process a greyscale
-image of the entire surface of our Moon using this data, and as far as I know
-the best maps of the lunar surface we have today were derived from this data.
-USGS data is public domain.
+In order to create a photorealistic demo I set out to find the highest quality
+public domain maps of the Moon available. I found out that there is good data
+published through the Map a Planet initiative and available on the
+[**USGS PDS site**][USGS]. The best data we have for our Moon was actually
+gathered by the [**Clementine spacecraft**][Clementine]. It is possible to
+process a greyscale image of the entire surface of our Moon using this data,
+and as far as I know the best maps of the lunar surface we have today were
+derived from this data. I was delighted to know that all this great data
+available from USGS is public domain.
 
 The best map I could find was processed by [**Jens Meyer**][Jens Meyer] and
 apparently also darkened up by [**Steve Albers**][Steve Albers]. It and other
@@ -66,7 +66,7 @@ If you wish to learn more about how this demo was created, please check out my
 
 [demo]: http://coryg89.github.io/MoonDemo
 [basic_demo]: http://coryg89.github.io/MoonDemo/basic.html
-[blog post]: http://coryg89.github.io/projects/MoonDemo
+[blog post]: http://coryg89.github.io/technical/2013/06/01/photorealistic-3d-moon-demo-in-webgl-and-javascript/
 
 [scaled_map]: img/maps/moon.jpg
 [scaled_normal]: img/maps/normal.jpg
@@ -75,7 +75,6 @@ If you wish to learn more about how this demo was created, please check out my
 [chrome]: https://google.com/chrome
 [three.js]: https://github.com/mrdoob/three.js/
 [screenfull.js]: https://github.com/sindresorhus/screenfull.js/
-[usgs]: http://pdsmaps.wr.usgs.gov/PDS/public/explorer/html/mmfront.htm
 [Steve Albers]: http://laps.noaa.gov/albers/sos/sos.html
 [Jens Meyer]: http://home.arcor.de/jimpage/earth.html
 [USGS]: http://pdsmaps.wr.usgs.gov/PDS/public/explorer/html/mmfront.htm
