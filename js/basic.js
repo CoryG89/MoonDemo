@@ -54,7 +54,7 @@ $(function () {
             moon = new THREE.Mesh(sphere, shaderMaterial);
             moon.geometry.computeFaceNormals();
             moon.position.set(0, 0, 0);
-            moon.rotation.x = 180;
+            moon.rotation.set(0, 180, 0);
             scene.add(moon);
         }
     };
