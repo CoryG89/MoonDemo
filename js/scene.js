@@ -18,7 +18,6 @@ $(function () {
     };
 
     var moon = {
-
         radius: 100,
         xSegments: 50,
         ySegments: 50,
@@ -61,10 +60,9 @@ $(function () {
     };
 
     var skybox = {
-
         size: 15000,
-
         init: function (texture) {
+
             /** Create a skybox using the built in cube shader */
             var cubemap = THREE.ShaderLib["cube"];
             cubemap.uniforms["tCube"].value = texture;
@@ -82,12 +80,11 @@ $(function () {
             /** Create the cube geometry for use in our skycube */
             var cube = new THREE.CubeGeometry(this.size, this.size, this.size);
 
-            /** Create the skybox mesh using our newly created material and geometry
-                and invert it so that the material is on the inside of the cube */
+            /** Create skybox mesh using our newly created material and geometry
+                invert it so that the material is on the inside of the cube */
             skybox = new THREE.Mesh(cube, spaceMat);
             scene.add(skybox);
         }
-
     };
 
     /** This object will represent our light source in the scene */
@@ -149,7 +146,6 @@ $(function () {
 
         /** Start the clock */
         clock = new THREE.Clock();
-
         return true;
     };
 
@@ -161,14 +157,16 @@ $(function () {
         /** Request a new time sample from our clock */
         time = clock.getElapsedTime();
 
+        /** Update the light source position based on the moon's position */
         light.orbit(moon);
 
         /** Call updates to various other components */
         controls.update(camera);
         stats.update();
 
-        /** Render a new frame only after calculating animation logic */
+        /** Render a new frame after recalculating animation logic */
         renderer.render(scene, camera);
+        
     };
 
     /** Event handler for the document object's 'keydown' event */
@@ -181,24 +179,21 @@ $(function () {
                 if (screenfull.enabled) screenfull.toggle();
                 break;
             case 'P'.charCodeAt(0):
-                window.open(encodePNG(renderer.domElement), 'screenshot');
+                screenshot();
                 break;
         }
     };
 
+    /** Update renderer and camera when the window resize event fires */
     var onWindowResize = function () {
-        /** Update renderer size to match the window */
         renderer.setSize(window.innerWidth, window.innerHeight);
-
-        /** Update the camera's aspect ratio and projection matrix */
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
     };
 
-    var encodePNG = function (element) {
-        /** Get a base64 encoded data url of the element in PNG format */
-        var mimeType = 'image/png';
-        return element.toDataURL(mimeType);
+    /** Encode a PNG screenshot of the renderer using a base64 data URL */
+    var screenshot = function () {
+        window.open(renderer.domElement.toDataURL('image/png'));
     };
 
     /** Main entry point, begin loading assets, then immediately start
@@ -209,18 +204,19 @@ $(function () {
 
         var path = 'img/maps/moon.jpg';
         var normPath = 'img/maps/normal.jpg';
-        THREE.ImageUtils.loadTexture(path, new THREE.UVMapping(), function (textureMap) {
 
-            THREE.ImageUtils.loadTexture(normPath, new THREE.UVMapping(), function (normalMap) {
-                moon.init(textureMap, normalMap);
+        THREE.ImageUtils.loadTexture(path, null, function (tex) {
+            THREE.ImageUtils.loadTexture(normPath, null, function (norm) {
+                
+                moon.init(tex, norm);
 
                 var prefix = 'img/starfield/';
-                var paths = [prefix + "front.png", prefix + "back.png",
+                var path = [prefix + "front.png", prefix + "back.png",
                             prefix + "left.png", prefix + "right.png",
                             prefix + "top.png", prefix + "bottom.png"];
 
-                THREE.ImageUtils.loadTextureCube(paths, null, function (texture) {
-                    skybox.init(texture);
+                THREE.ImageUtils.loadTextureCube(path, null, function (tex) {
+                    skybox.init(tex);
 
                     /** Animate only after all assets are loaded */
                     animate();
