@@ -43,7 +43,7 @@ my demo.
 
 My scaled down version is shown here:
 
-[![Scaled Moon Map][scaled_map]][scaled_map]
+[![Scaled Moon Map][scaled_map_thumb]][scaled_map]
 
 ## Technical
 
@@ -59,7 +59,7 @@ and the scaled verison.
 
 The scaled normal map is shown here:
 
-[![Scaled Normal Map][scaled_normal]][scaled_normal]
+[![Scaled Normal Map][scaled_normal_thumb]][scaled_normal]
 
 If you wish to learn more about how this demo was created, please check out my
 [**blog post**][blog post] for a more detailed technical explanation.
@@ -69,7 +69,9 @@ If you wish to learn more about how this demo was created, please check out my
 [blog post]: http://coryg89.github.io/technical/2013/06/01/photorealistic-3d-moon-demo-in-webgl-and-javascript/
 
 [scaled_map]: img/maps/moon.jpg
+[scaled_map_thumb]: img/maps/moon1024x512.jpg
 [scaled_normal]: img/maps/normal.jpg
+[scaled_normal_thumb]: img/maps/normal1024x512.jpg
 [screen1]: img/screens/screen1.png
 
 [chrome]: https://google.com/chrome
