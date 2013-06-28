@@ -64,8 +64,8 @@ $(function () {
         init: function (texture) {
 
             /** Create a skybox using the built in cube shader */
-            var cubemap = THREE.ShaderLib["cube"];
-            cubemap.uniforms["tCube"].value = texture;
+            var cubemap = THREE.ShaderLib.cube;
+            cubemap.uniforms.tCube.value = texture;
 
             /** Create a Three.JS ShaderMaterial for the skycube using the
                 cube shaders uniforms, fragment shader, and vertex shader */
