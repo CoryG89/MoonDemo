@@ -12,11 +12,9 @@ featuring real high-resolution satellite maps. Check out the
 
 This demo uses the following open source libraries:
 
- - [**`mrdoob/three.js`**][three.js] -- 3D graphics library written in
-   JavaScript and including renderers for WebGL, Canvas, SVG, etc.
+ - [**`mrdoob/three.js`**][three.js] -- 3D graphics in JavaScript, includes renderers for WebGL, Canvas, SVG, CSS3D, etc.
  - [**`sindresorhus/screenfull.js`**][screenfull.js] -- Cross-browser
-   library for working with the JavaScript Fullscreen API via a simplified
-   interface.
+   wrapper for the JavaScript Fullscreen API with a simplified interface.
 
 ## Credit
 
