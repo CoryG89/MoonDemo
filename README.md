@@ -8,15 +8,18 @@ featuring real high-resolution satellite maps. Check out the
 
 [![Moon Demo Screenshot][screen1]][screen1]
 
-## Dependencies
+Dependencies
+------------
 
 This demo uses the following open source libraries:
 
- * [**`mrdoob/three.js`**][three.js] - 3D graphics in JS, includes renderers for WebGL, Canvas, SVG, CSS3D, etc.
+ * [**`mrdoob/three.js`**][three.js] - 3D graphics in JS, includes renderers 
+   for WebGL, Canvas, SVG, CSS3D, etc.
  * [**`sindresorhus/screenfull.js`**][screenfull.js] - Cross-browser
    wrapper w/ simpler interface for native JS Fullscreen API.
 
-## Credit
+Credit
+------
 
 In order to create a photorealistic demo I set out to find the highest quality
 public domain maps of the Moon available. I found out that there is good data
@@ -43,7 +46,8 @@ My scaled down version is shown here:
 
 [![Scaled Moon Map][scaled_map_thumb]][scaled_map]
 
-## Technical
+Technical
+---------
 
 This demo is an example of using WebGL with the Three.JS JavaScript library.
 GLSL shaders are used to create a material which is applied to the moon in
@@ -61,6 +65,8 @@ The scaled normal map is shown here:
 
 If you wish to learn more about how this demo was created, please check out my
 [**blog post**][blog post] for a more detailed technical explanation.
+
+
 
 [demo]: http://coryg89.github.io/MoonDemo
 [basic_demo]: http://coryg89.github.io/MoonDemo/basic.html
