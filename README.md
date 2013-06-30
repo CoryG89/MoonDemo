@@ -16,7 +16,7 @@ This demo uses the following open source libraries:
  * [**`mrdoob/three.js`**][three.js] - 3D graphics in JS, includes renderers 
    for WebGL, Canvas, SVG, CSS3D, etc.
  * [**`sindresorhus/screenfull.js`**][screenfull.js] - Cross-browser
-   wrapper w/ simpler interface for native JS Fullscreen API.
+   wrapper for native JS Fullscreen API w/ a simpler interface.
 
 Credit
 ------
