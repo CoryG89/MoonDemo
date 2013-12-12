@@ -8,91 +8,87 @@
     Sorry, you need javascript enabled to view this web application. 
     Please check your browser's settings if you wish to run the app.
   </noscript>
-
   <link type="text/css" href="css/main.css" rel="stylesheet" />
-
-  <!-- Include vendor scripts, jQuery, and Three.JS components -->
-  <script type="text/ecmascript" src="vendor/jquery-1.10.1.min.js"></script>
-  <script type="text/javascript" src="vendor/three.min.js"></script>
-  <script type="text/javascript" src="vendor/TrackballControls.js"></script>
-  <script type="text/javascript" src="vendor/detector.min.js"></script>
-  <script type="text/javascript" src="vendor/stats.min.js"></script>
-  <script type="text/javascript" src="vendor/screenfull.min.js"></script>
 </head>
 <body>
-
-  <!-- Container for the WebGL renderer -->
+  <!-- Three.JS Container DOM Element -->
   <div id="container"></div>
 
-  <!-- Overlayed on-screen heads up display -->
+  <!-- Overlay HUD -->
   <div id="hud">
-    <div class="hud-panel" id="top-right">
+    <div class="hud-panel top-right">
       <a href="http://github.com/CoryG89/MoonDemo">Moon Demo</a> -- WebGL / JS
       <br />Created by <a href="http://coryg89.github.io/">Cory Gross</a>
     </div>
-    <div class="hud-panel" id="bottom-right">
+    <div class="hud-panel bottom-right">
       <i>h</i> to toggle HUD - <i>p</i> for screenshot - <i>f</i> for fullscreen
     </div>
   </div>
 
   <!-- GLSL vertex shader for the moon -->
-  <script id="vertexShader" type="x-shader/x-vertex">
-        attribute vec4 tangent;
-        
-        uniform vec2 uvScale;
-        uniform vec3 lightPosition;
-
-        varying vec2 vUv;
-        varying mat3 tbn;
-        varying vec3 vLightVector;
-
-        void main() {
-            vUv = uvScale * uv;
-            
-
-            // Create the Tangent-Binormal-Normal Matrix used for transforming
-            // coordinates from object space to tangent space
-            vec3 vNormal = normalize(normalMatrix * normal);
-            vec3 vTangent = normalize( normalMatrix * tangent.xyz );
-            vec3 vBinormal = normalize(cross( vNormal, vTangent ) * tangent.w);
-            tbn = mat3(vTangent, vBinormal, vNormal);
-        
-            // Calculate the Vertex-to-Light Vector 
-            vec4 lightVector = viewMatrix * vec4(lightPosition, 1.0);
-            vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
-            vLightVector = normalize(lightVector.xyz - modelViewPosition.xyz);
+  <script id="norm-vert-shader" type="x-shader/x-vertex">
+    attribute vec4 tangent;
     
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
+    uniform vec2 uvScale;
+    uniform vec3 lightPosition;
+
+    varying vec2 vUv;
+    varying mat3 tbn;
+    varying vec3 vLightVector;
+
+    void main() {
+        vUv = uvScale * uv;
+
+        /** Create tangent-binormal-normal matrix used to transform
+            coordinates from object space to tangent space */
+        vec3 vNormal = normalize(normalMatrix * normal);
+        vec3 vTangent = normalize( normalMatrix * tangent.xyz );
+        vec3 vBinormal = normalize(cross( vNormal, vTangent ) * tangent.w);
+        tbn = mat3(vTangent, vBinormal, vNormal);
+
+        /** Calculate the vertex-to-light vector */
+        vec4 lightVector = viewMatrix * vec4(lightPosition, 1.0);
+        vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
+        vLightVector = normalize(lightVector.xyz - modelViewPosition.xyz);
+
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
   </script>
 
   <!-- GLSL fragment shader for the moon -->
-  <script id="fragmentShader" type="x-shader/x-fragment">
-        uniform sampler2D textureMap;
-        uniform sampler2D normalMap;
-        
-        varying vec2 vUv;
-        varying mat3 tbn;
-        varying vec3 vLightVector;
-        
-        void main() {
-            // Transform texture coordinate of normal map to a range (-1.0, 1.0)
-            vec3 normalCoordinate = texture2D(normalMap, vUv).xyz * 2.0 - 1.0;
+  <script id="norm-frag-shader" type="x-shader/x-fragment">
+    uniform sampler2D textureMap;
+    uniform sampler2D normalMap;
+    
+    varying vec2 vUv;
+    varying mat3 tbn;
+    varying vec3 vLightVector;
+    
+    void main() {
+        /** Transform texture coordinate of normal map to a range (-1, 1) */
+        vec3 normalCoordinate = texture2D(normalMap, vUv).xyz * 2.0 - 1.0;
 
-            // Transform the normal vector in the RGB channels to tangent space
-            vec3 normal = normalize(tbn * normalCoordinate.rgb);
+        /** Transform the normal vector in the RGB channels to tangent space */
+        vec3 normal = normalize(tbn * normalCoordinate.rgb);
 
-            // Intensity calculated as dot of normal and vertex-light vector
-            float intensity = max(0.07, dot(normal, vLightVector));
+        /** Lighting intensity is calculated as dot of normal vector and 
+            the vertex-to-light vector */
+        float intensity = max(0.07, dot(normal, vLightVector));
+        vec4 lighting = vec4(intensity, intensity, intensity, 1.0);
 
-            // Adjustments to alpha and intensity per color channel may be made
-            vec4 lighting = vec4(intensity, intensity, intensity, 1.0);
-
-            // Final color is calculated with the lighting applied
-            gl_FragColor = texture2D(textureMap, vUv) * lighting;
-        }
+        /** Final color is calculated with the lighting applied */
+        gl_FragColor = texture2D(textureMap, vUv) * lighting;
+    }
   </script>
 
-  <script type="text/javascript" src="js/scene.js"></script>
+  <!-- Include vendor scripts -->
+  <script type="text/javascript" src="vendor/three.min.js"></script>
+  <script type="text/javascript" src="vendor/TrackballControls.js"></script>
+  <script type="text/javascript" src="vendor/detector.min.js"></script>
+  <script type="text/javascript" src="vendor/stats.min.js"></script>
+  <script type="text/javascript" src="vendor/screenfull.min.js"></script>
+
+  <!-- Include three.js scene controller script -->
+  <script type="text/javascript" src="js/index.js"></script>
 </body>
 </html>

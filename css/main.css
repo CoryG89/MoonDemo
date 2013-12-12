@@ -2,8 +2,8 @@ body {
     overflow: hidden;
     padding: 0px;
     margin: 0px;
-    color: #000000;
-    background-color: #000000;
+    color: #fff;
+    background-color: #000;
 }
 
 a {
@@ -17,35 +17,30 @@ a:hover {
     text-decoration: underline;
 }
 
-#hud {
-    color: white;
-    visibility: visible;
-}
-
-.hud-panel {
+div#hud > div.hud-panel {
     position: absolute;
     padding: 5px;
 }
 
-#top-left.hud-panel {
+div#hud > div.hud-panel.top-left {
     top: 0px;
     left: 0px;
     text-align: left;
 }
 
-#top-right.hud-panel {
+div#hud > div.hud-panel.top-right {
     top: 0px;
     right: 0px;
     text-align: right;
 }
 
-#bottom-left.hud-panel {
+div#hud > div.hud-panel.bottom-left {
     bottom: 0px;
     left: 0px;
     text-align: left;
 }
 
-#bottom-right.hud-panel {
+div#hud > div.hud-panel.bottom-right {
     bottom: 0px;
     right: 0px;
     text-align: right;
