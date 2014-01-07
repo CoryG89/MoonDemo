@@ -6,6 +6,9 @@ featuring real high-resolution satellite maps. Check out the
 [**live demo**][demo]! You'll need a modern browser with WebGL enabled in order
  to run it. I recommmend [**Google Chrome**][chrome].
 
+I recently tested this in Chrome for Android on my Galaxy Note 3 and it ran
+fine at 60 FPS. The stars were not visible. I think they are just too small.
+
 [![Moon Demo Screenshot][screen1]][screen1]
 
 Dependencies
@@ -13,8 +16,7 @@ Dependencies
 
 This demo uses the following open source libraries:
 
- * [**`mrdoob/three.js`**][three.js] - 3D graphics in JS, includes renderers 
-   for WebGL, Canvas, SVG, CSS3D, etc.
+ * [**`mrdoob/three.js`**][three.js] - JavaScript 3D Graphics Library - WebGL
  * [**`sindresorhus/screenfull.js`**][screenfull.js] - Cross-browser
    wrapper for native JS Fullscreen API w/ simpler interface.
 
@@ -65,8 +67,6 @@ The scaled normal map is shown here:
 
 If you wish to learn more about how this demo was created, please check out my
 [**blog post**][blog post] for a more detailed technical explanation.
-
-
 
 [demo]: http://coryg89.github.io/MoonDemo
 [basic_demo]: http://coryg89.github.io/MoonDemo/basic.html
