@@ -1,13 +1,20 @@
 ﻿<!doctype html>
 <html>
 <head>
+
   <title>WebGL Moon Demo</title>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   <meta name="description" content="Photorealistic 3D Moon Demo in WebGL using satellite imagery." />
+  
+  <!-- Allow fullscreen app install in Android and IOS respectively -->
   <meta name="mobile-web-app-capable" content="yes" />
-  <noscript>You need javascript enabled to use this web application.</noscript>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  
+  <!-- Import external stylesheets -->
   <link type="text/css" href="css/main.css" rel="stylesheet" />
+
 </head>
 <body>
 
@@ -17,12 +24,20 @@
   <!-- Overlay HUD -->
   <div id="hud">
     <div class="hud-panel top-right">
-      <a href="http://github.com/CoryG89/MoonDemo">Moon Demo</a> -- WebGL / JS
+      <a href="http://github.com/CoryG89/MoonDemo">WebGL Moon Demo</a> (Three.JS)
       <br />Created by <a href="http://coryg89.github.io/">Cory Gross</a>
     </div>
     <div class="hud-panel bottom-right">
-      <i>h</i> to toggle HUD - <i>p</i> for screenshot - <i>f</i> for fullscreen
+      <em>h</em> to toggle HUD
+      <br /><em>p</em> for screenshot
+      <br /><em>f</em> for fullscreen
     </div>
+    <div class="hud-panel center"></div>
+  </div>
+
+  <div id="loading-container">
+    <h2>Loading Assets</h2>
+    <p id="loading-message"></p>
   </div>
 
   <!-- GLSL vertex shader for the moon -->
@@ -88,8 +103,11 @@
   <script type="text/javascript" src="vendor/stats.min.js"></script>
   <script type="text/javascript" src="vendor/screenfull.min.js"></script>
 
-  <!-- Include three.js scene controller script -->
+  <!-- Include Three.JS scene controller script -->
   <script type="text/javascript" src="js/index.js"></script>
-  
+
+  <noscript>
+    <p>You need javascript enabled in order to use this web application.</p>
+  </noscript>
 </body>
 </html>

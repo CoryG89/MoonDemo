@@ -45,3 +45,16 @@ div#hud > div.hud-panel.bottom-right {
     right: 0px;
     text-align: right;
 }
+
+div#loading-container {
+    position: absolute;
+    margin: auto;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 25%;
+    height: 25%;
+    text-align: center;
+    display: none;
+}

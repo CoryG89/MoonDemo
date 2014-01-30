@@ -8,6 +8,10 @@
 
     var hud = document.getElementById('hud');
     var container = document.getElementById('container');
+
+    var loadingContainer = document.getElementById('loading-container');
+    var loadingMessage = document.getElementById('loading-message');
+
     var normVertShader = document.getElementById('norm-vert-shader');
     var normFragShader = document.getElementById('norm-frag-shader');
 
@@ -33,7 +37,7 @@
         }
     };
 
-    function createNormalSphere (textureMap, normalMap) {
+    function createMoon(textureMap, normalMap) {
         var radius = 100;
         var xSegments = 50;
         var ySegments = 50;
@@ -70,7 +74,7 @@
         return mesh;
     }
 
-    function createSkybox (texture) {
+    function createSkybox(texture) {
         var size = 15000;
 
         var cubemap = THREE.ShaderLib.cube;
@@ -92,11 +96,12 @@
         return mesh;
     }
 
-    function init () {
+    function init() {
         renderer = new THREE.WebGLRenderer({
             antialias: true,
             preserveDrawingBuffer: true
         });
+
         renderer.setClearColor(0x000000, 1);
         renderer.setSize(window.innerWidth, window.innerHeight);
         container.appendChild(renderer.domElement);
@@ -105,6 +110,7 @@
         var aspect = window.innerWidth / window.innerHeight;
         var near = 1;
         var far = 65536;
+        
         camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
         camera.position.set(0, 0, 800);
 
@@ -120,13 +126,10 @@
         stats.domElement.style.bottom = '0px';
         hud.appendChild(stats.domElement);
 
-        document.addEventListener('keydown', onDocumentKeyDown, false);
-        window.addEventListener('resize', onWindowResize, false);
-
         clock = new THREE.Clock();
     }
 
-    function animate () {
+    function animate() {
         requestAnimationFrame(animate);
         light.orbit(moon.position, clock.getElapsedTime());
         controls.update(camera);
@@ -152,14 +155,15 @@
         }
     }
 
-    function onWindowResize () {
+    function onWindowResize() {
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
     }
 
-    function loadAssets (options) {
+    function loadAssets(options) {
         var paths = options.paths;
+        var onBegin = options.onBegin;
         var onComplete = options.onComplete;
         var onProgress = options.onProgress;
         var total = 0;
@@ -169,6 +173,11 @@
 
         for (key in paths)
             if (paths.hasOwnProperty(key)) total++;
+
+        onBegin({
+            total: total,
+            completed: completed
+        });
 
         for (key in paths) {
             if (paths.hasOwnProperty(key)) {
@@ -201,7 +210,10 @@
         }
     }
 
-    function onWindowLoaded () {
+    /** When the window loads, we immediately begin loading assets. While the
+        assets loading Three.JS is initialized. When all assets finish loading
+        they can be used to create objects in the scene and animation begins */
+    function onWindowLoaded() {
         loadAssets({
             paths: {
                 moon: 'img/maps/moon.jpg',
@@ -215,19 +227,26 @@
                     'img/starfield/bottom.png'
                 ]
             },
+            onBegin: function () {
+                loadingContainer.style.display = 'block';
+            },
             onProgress: function (evt) {
-                console.log('onProgress: %o', evt);
+                loadingMessage.innerHTML = evt.name;
             },
             onComplete: function (evt) {
-                console.log('onComplete: %o', evt);
+                loadingContainer.style.display = 'none';
                 var textures = evt.textures;
-                moon = createNormalSphere(textures.moon, textures.moonNormal);
+                moon = createMoon(textures.moon, textures.moonNormal);
                 starfield = createSkybox(textures.starfield);
                 animate();
             }
         });
+
         init();
     }
 
+    /** Window load event kicks off execution */
     window.addEventListener('load', onWindowLoaded, false);
+    window.addEventListener('resize', onWindowResize, false);
+    document.addEventListener('keydown', onDocumentKeyDown, false);
 })();
